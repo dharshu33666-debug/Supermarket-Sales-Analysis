@@ -78,23 +78,18 @@ Presents sales revenue through a Python-generated chart.
 
 Displays key metrics and visualizations in a user-friendly web interface.
 
-📂 Project Structure
+Project Structure
 
-Supermarket-Sales-Analysis/
-│
-├── app.py
-├── sales_analysis.py
-├── sales_summary.csv
-│
-├── templates/
-│   └── index.html
-│
-├── static/
-│   ├── sales_revenue_chart.png
-│   ├── groceries.jpg
-│   └── other product images
-│
-└── README.md
+- Supermarket-Sales-Analysis/
+  - "app.py"
+  - "sales_analysis.py"
+  - "sales_summary.csv"
+  - templates/
+    - "index.html"
+  - static/
+    - "sales_revenue_chart.png"
+    - "groceries.jpg"
+  - "README.md"
 
 The project structure above is an example. Update the file list to match the files actually present in your repository.
 

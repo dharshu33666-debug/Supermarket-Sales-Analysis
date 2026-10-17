@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Supermarket Sales Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #263238;
+        }
+
+        header {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #dce6f1;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .section-title {
+            color: #243b55;
+            margin: 25px 0 20px;
+        }
+
+        /* SUMMARY CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000012;
+            border-left: 5px solid #2878d0;
+        }
+
+        .card h3 {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #243b55;
+            font-size: 24px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        /* PRODUCT IMAGES */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 22px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px #00000012;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            background: #eee;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            color: #243b55;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CHARTS */
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000012;
+            min-width: 0;
+        }
+
+        .chart-container h3 {
+            color: #243b55;
+            margin-bottom: 20px;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            height: 300px !important;
+        }
+
+        /* ABOUT */
+
+        .about {
+            background: white;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000012;
+            line-height: 1.8;
+        }
+
+        .about h2 {
+            color: #243b55;
+            margin-bottom: 12px;
+        }
+
+        .about p {
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #141e30;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            margin-top: 40px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛒 Supermarket Sales Analysis</h1>
+    <p>Sales Performance, Product Categories and Business Insights</p>
+</header>
+
+<div class="container">
+
+    <!-- SALES OVERVIEW -->
+
+    <h2 class="section-title">📊 Sales Overview</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Sales</h3>
+            <p>{{ total_sales | default(0) }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Profit</h3>
+            <p>{{ total_profit | default(0) }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Orders</h3>
+            <p>{{ total_orders | default(0) }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Profit Margin</h3>
+            <p>{{ profit_margin | default(0) }}%</p>
+        </div>
+
+    </div>
+
+    <!-- PRODUCT IMAGES -->
+
+    <h2 class="section-title">🛍️ Supermarket Products</h2>
+
+    <div class="products">
+
+        <!-- VEGETABLES -->
+
+        <div class="product-card">
+            <img
+                src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80"
+                alt="Fresh Vegetables"
+                onerror="this.onerror=null;this.src='https://placehold.co/500x300?text=Fresh+Vegetables';"
+            >
+
+            <div class="product-info">
+                <h3>Fresh Vegetables</h3>
+                <p>Fresh vegetables and healthy everyday produce.</p>
+            </div>
+        </div>
+
+        <!-- FOOD PRODUCTS -->
+
+        <div class="product-card">
+            <img
+                src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=500&q=80"
+                alt="Food Products"
+                onerror="this.onerror=null;this.src='https://placehold.co/500x300?text=Food+Products';"
+            >
+
+            <div class="product-info">
+                <h3>Food Products</h3>
+                <p>Food items and everyday supermarket essentials.</p>
+            </div>
+        </div>
+
+        <!-- GROCERIES -->
+
+<div class="product-card">
+    <img
+        src="https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=500"
+        alt="Groceries"
+        onerror="this.onerror=null;this.src='https://placehold.co/500x300?text=Groceries';"
+    >
+
+    <div class="product-info">
+        <h3>Groceries</h3>
+        <p>Rice, pulses, packaged goods and daily essentials.</p>
+    </div>
+</div>
+
+        <!-- FOOD ITEMS -->
+
+        <div class="product-card">
+            <img
+                src="https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=500&q=80"
+                alt="Food Items"
+                onerror="this.onerror=null;this.src='https://placehold.co/500x300?text=Food+Items';"
+            >
+
+            <div class="product-info">
+                <h3>Food Items</h3>
+                <p>Delicious food items for everyday needs.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SALES ANALYSIS CHARTS -->
+
+    <h2 class="section-title">📈 Sales Analysis Charts</h2>
+
+    <div class="chart-grid">
+
+        <div class="chart-container">
+            <h3>Sales Analysis</h3>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>Profit Analysis</h3>
+            <canvas id="profitChart"></canvas>
+        </div>
+
+    </div>
+
+    <!-- PYTHON GENERATED CHART -->
+
+    <div class="chart-container" style="margin-top:25px;">
+        <h3>Sales Revenue Chart</h3>
+
+        <img
+            src="{{ url_for('static', filename='sales_revenue_chart.png') }}"
+            alt="Sales Revenue Chart"
+            style="width:100%;height:auto;"
+            onerror="this.onerror=null;this.alt='Sales revenue chart is not available';"
+        >
+    </div>
+
+    <!-- ABOUT PROJECT -->
+
+    <div class="about">
+        <h2>About This Project</h2>
+
+        <p>
+            Supermarket Sales Analysis is a data analytics project
+            developed to understand sales performance, revenue and profit.
+        </p>
+
+        <p>
+            This dashboard displays sales summaries, supermarket product
+            images and interactive charts to help users understand
+            business performance.
+        </p>
+
+        <p>
+            <strong>Technologies Used:</strong>
+            Python, Pandas, Flask, HTML, CSS, JavaScript and Chart.js.
+        </p>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+    <p>Supermarket Sales Analysis Dashboard</p>
+    <p>Python Data Analytics Project</p>
+</footer>
+
+<!-- CHART.JS SCRIPT -->
+
+<script>
+    const chartLabels = {{ chart_labels | default([], true) | tojson }};
+    const chartValues = {{ chart_values | default([], true) | tojson }};
+    const profitValues = {{ profit_values | default([], true) | tojson }};
+
+    // SALES ANALYSIS CHART
+
+    const salesCanvas = document.getElementById("salesChart");
+
+    if (salesCanvas) {
+        new Chart(salesCanvas, {
+            type: "bar",
+
+            data: {
+                labels: chartLabels,
+
+                datasets: [{
+                    label: "Sales Revenue",
+                    data: chartValues,
+                    backgroundColor: "rgba(54, 162, 235, 0.7)",
+                    borderColor: "rgb(54, 162, 235)",
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // PROFIT ANALYSIS CHART
+
+    const profitCanvas = document.getElementById("profitChart");
+
+    if (profitCanvas) {
+        new Chart(profitCanvas, {
+            type: "bar",
+
+            data: {
+                labels: chartLabels,
+
+                datasets: [{
+                    label: "Profit",
+                    data: profitValues,
+                    backgroundColor: "rgba(75, 192, 120, 0.7)",
+                    borderColor: "rgb(40, 150, 90)",
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

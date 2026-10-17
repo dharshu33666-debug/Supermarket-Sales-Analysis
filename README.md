@@ -78,7 +78,7 @@ Presents sales revenue through a Python-generated chart.
 
 Displays key metrics and visualizations in a user-friendly web interface.
 
-Project Structure
+📂 Project Structure
 
 - Supermarket-Sales-Analysis/
   - "app.py"

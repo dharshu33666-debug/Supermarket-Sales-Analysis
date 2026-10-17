@@ -85,7 +85,6 @@ Supermarket-Sales-Analysis/
 ├── app.py
 ├── sales_analysis.py
 ├── sales_summary.csv
-├── supermarket_large_dataset.csv
 │
 ├── templates/
 │   └── index.html
